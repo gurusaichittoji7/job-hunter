@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 seen_jobs.db
 .DS_Store
+output/

@@ -36,10 +36,13 @@ def check_h1b_signal(job_description, employer_name):
     desc_lower = (job_description or "").lower()
     employer_lower = (employer_name or "").lower()
 
+    transfer_ok = "transfer" in desc_lower and ("h1b" in desc_lower or "h-1b" in desc_lower)
     keyword_flag = any(kw in desc_lower for kw in NO_SPONSOR_KEYWORDS)
     known_sponsor = any(name in employer_lower for name in KNOWN_H1B_SPONSORS)
 
-    if keyword_flag:
+    if keyword_flag and transfer_ok:
+        return "Mixed: No new sponsorship, but H1B transfers welcomed"
+    elif keyword_flag:
         return "Risk: JD explicitly excludes sponsorship"
     elif known_sponsor:
         return "Likely OK: Known frequent H1B sponsor"
@@ -98,7 +101,8 @@ def score_jobs(jobs):
         scored_jobs.append({
             "job_title": job.get("job_title"),
             "employer_name": job.get("employer_name"),
-            "apply_link": job.get("job_apply_link"),
+            "apply_link": job.get("best_apply_link", job.get("job_apply_link")),
+            "source": job.get("best_apply_source", job.get("job_publisher")),
             "match_percent": evaluation.get("match_percent"),
             "verdict": evaluation.get("verdict"),
             "reason": evaluation.get("reason"),

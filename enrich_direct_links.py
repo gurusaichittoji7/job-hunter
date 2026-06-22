@@ -41,26 +41,59 @@ def check_lever(slug, job_title):
         return None
     return None
 
+def check_ashby(slug, job_title):
+    """Try to find a matching job on this company's Ashby board."""
+    url = f"https://api.ashbyhq.com/posting-api/job-board/{slug}"
+    try:
+        resp = requests.get(url, timeout=5)
+        if resp.status_code != 200:
+            return None
+        jobs = resp.json().get("jobs", [])
+        for job in jobs:
+            if job_title.lower() in job.get("title", "").lower():
+                return job.get("jobUrl")
+    except requests.RequestException:
+        return None
+    return None
+
+def check_workable(slug, job_title):
+    """Try to find a matching job on this company's Workable board."""
+    url = f"https://apply.workable.com/api/v1/widget/accounts/{slug}"
+    try:
+        resp = requests.get(url, timeout=5)
+        if resp.status_code != 200:
+            return None
+        jobs = resp.json().get("jobs", [])
+        for job in jobs:
+            if job_title.lower() in job.get("title", "").lower():
+                shortcode = job.get("shortcode")
+                return f"https://apply.workable.com/{slug}/j/{shortcode}/"
+    except requests.RequestException:
+        return None
+    return None
 
 def enrich_with_direct_link(job):
     """
-    Try Greenhouse then Lever for a direct company link matching this job.
+    Try Greenhouse, Lever, Ashby, then Workable for a direct company link.
     If found, overwrite best_apply_link/best_apply_source with the direct one.
     """
     company = job.get("employer_name", "")
     title = job.get("job_title", "")
     slug = slugify(company)
 
-    direct_link = check_greenhouse(slug, title)
-    source = "Greenhouse (direct)"
+    checks = [
+        (check_greenhouse, "Greenhouse (direct)"),
+        (check_lever, "Lever (direct)"),
+        (check_ashby, "Ashby (direct)"),
+        (check_workable, "Workable (direct)"),
+    ]
 
-    if not direct_link:
-        direct_link = check_lever(slug, title)
-        source = "Lever (direct)"
-
-    if direct_link:
-        job["best_apply_link"] = direct_link
-        job["best_apply_source"] = source
+    for check_fn, source_label in checks:
+        direct_link = check_fn(slug, title)
+        if direct_link:
+            job["best_apply_link"] = direct_link
+            job["best_apply_source"] = source_label
+            break
 
     return job
 

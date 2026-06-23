@@ -1,5 +1,6 @@
 import requests
 from enrich_direct_links import slugify, check_greenhouse, check_lever, check_ashby, check_workable
+import re
 
 COMPANIES = [
     "Google", "Microsoft", "Amazon", "Meta", "Apple", "Netflix", "Nvidia",
@@ -91,7 +92,7 @@ ROLE_KEYWORDS = [
 
 def is_relevant(title):
     title_lower = title.lower()
-    return any(kw in title_lower for kw in ROLE_KEYWORDS)
+    return any(re.search(rf"\b{re.escape(kw)}\b", title_lower) for kw in ROLE_KEYWORDS)
 
 
 def fetch_greenhouse_jobs(slug):
@@ -254,7 +255,33 @@ if __name__ == "__main__":
     print(f"Checking {len(COMPANIES)} companies across 6 ATS platforms...\n")
     jobs = fetch_all_company_boards()
     print(f"\nTotal relevant jobs found: {len(jobs)}\n")
-    for job in jobs[:10]:
-        print(f"{job['job_title']} - {job['employer_name']} ({job['best_apply_source']})")
-        print(job['best_apply_link'])
-        print("---")
+
+    # Quick browser preview of the first 50, no scoring needed yet
+    import os
+    os.makedirs("output", exist_ok=True)
+    rows = ""
+    for job in jobs[:50]:
+        rows += f"""
+        <tr>
+            <td>{job.get('job_title', '')}</td>
+            <td>{job.get('employer_name', '')}</td>
+            <td>{job.get('best_apply_source', '')}</td>
+            <td><a href="{job.get('best_apply_link', '#')}" target="_blank">Apply →</a></td>
+        </tr>
+        """
+    html = f"""
+    <html><body style="font-family: Arial; margin: 30px;">
+    <h2>Company Boards Preview — first 50 of {len(jobs)} jobs</h2>
+    <table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
+        <tr style="background:#222; color:white;">
+            <th>Title</th><th>Company</th><th>Source</th><th>Link</th>
+        </tr>
+        {rows}
+    </table>
+    </body></html>
+    """
+    with open("output/company_boards_preview.html", "w") as f:
+        f.write(html)
+
+    import webbrowser
+    webbrowser.open(f"file://{os.path.abspath('output/company_boards_preview.html')}")

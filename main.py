@@ -5,6 +5,7 @@ from filter_experience import filter_mid_level_jobs
 from dedupe import filter_new_jobs
 from enrich_direct_links import enrich_all
 from score import score_jobs
+from select_top_jobs import select_top_jobs
 from output import generate_html
 
 
@@ -13,22 +14,22 @@ def run():
     print("JOB HUNTER — starting run")
     print("=" * 50)
 
-    print("\n[1/6] Fetching jobs across all roles...")
+    print("\n[1/7] Fetching jobs across all roles...")
     jsearch_jobs = fetch_all_jobs()
     print(f"      → {len(jsearch_jobs)} jobs fetched from JSearch")
 
-    print("\n[2/6] Checking target companies' direct job boards...")
+    print("\n[2/7] Checking target companies' direct job boards...")
     company_jobs = fetch_all_company_boards()
     print(f"      → {len(company_jobs)} relevant jobs found across target companies")
 
     all_jobs = jsearch_jobs + company_jobs
     print(f"      → {len(all_jobs)} total jobs combined")
 
-    print("\n[3/6] Filtering to mid-level (0-5 yrs) roles...")
+    print("\n[3/7] Filtering to mid-level (0-5 yrs) roles...")
     mid_level_jobs = filter_mid_level_jobs(all_jobs)
     print(f"      → {len(mid_level_jobs)} mid-level jobs remain")
 
-    print("\n[4/6] Filtering out previously seen jobs...")
+    print("\n[4/7] Filtering out previously seen jobs...")
     new_jobs = filter_new_jobs(mid_level_jobs)
     print(f"      → {len(new_jobs)} new jobs to evaluate")
 
@@ -36,16 +37,24 @@ def run():
         print("\nNo new jobs found this run. Nothing to report.")
         return
 
-    print(f"\n[5/6] Checking for direct company apply links...")
+    print(f"\n[5/7] Checking for direct company apply links...")
     enriched_jobs = enrich_all(new_jobs)
     print("      → enrichment complete")
 
-    print(f"\n[6/6] Scoring {len(enriched_jobs)} jobs against your resume...")
+    print(f"\n[6/7] Scoring {len(enriched_jobs)} jobs against your resume...")
     scored = score_jobs(enriched_jobs)
     print("      → scoring complete")
 
+    print("\n[7/7] Selecting top 50 (75%+, max 2/company)...")
+    top_jobs = select_top_jobs(scored)
+    print(f"      → {len(top_jobs)} jobs made the final cut")
+
+    if not top_jobs:
+        print("\nNo jobs met the 75%+ bar today. Nothing to report.")
+        return
+
     print("\nGenerating report...")
-    filepath = generate_html(scored)
+    filepath = generate_html(top_jobs)
     print(f"      → saved to {filepath}")
 
     print("\nOpening report in browser...")

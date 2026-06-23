@@ -1,0 +1,74 @@
+GURUSAI CHITTOJI
+gurusaic3x@gmail.com | +1 (503) 380-1422 | CA, USA | LinkedIn | Portfolio
+SUMMARY
+AI/ML Engineer with 4+ years of experience architecting, optimizing, and deploying production-grade agentic systems and end-to-end MLOps
+pipelines. Proven track record in building stateful RAG applications, designing resilient data pipelines, and implementing robust session-based
+context management. Expert in accelerating inference, orchestrating containerized cloud infrastructure, and integrating Human-in-the-Loop
+workflows to drive automation and high-fidelity decision support.
+SKILLS
+Machine Learning & AI: Classical ML, LLM-Based Applications, Generative AI, Agentic AI Workflows, Multi-Agent Systems, RAG Pipelines,
+Forecasting, Optimization, Decision Support Systems
+MLOps & Deployment: CI/CD Pipelines (GitHub Actions), Docker, Containerized Deployments, Model Monitoring, Production Deployment,
+MLOps Practices, Cloud Infrastructure, Version Control (Git)
+Cloud Platforms: AWS (EC2, S3, Lambda, RDS), GCP, Azure, Firebase, Supabase, Distributed Computing, Scalable System Architecture
+Python & ML Libraries: PyTorch, TensorFlow, Hugging Face Transformers, Scikit-Learn, Pandas, NumPy, FastEmbed, Sentence-Transformers
+LLM & Agentic Systems: LangChain, LangGraph, FAISS, Pinecone, Vector Embeddings, Semantic Search, Prompt Engineering, Human-in-the-
+Loop Checkpointing
+Backend Engineering: FastAPI, RESTful APIs, Python, Middleware Architecture, Real-Time Processing, PostgreSQL, MongoDB, SQL/NoSQL
+Databases
+Observability & Monitoring: Real-Time Telemetry, Execution Trace Capture, Token Usage Monitoring, Performance Tracking, SQLite Query
+Logging, Model Performance Dashboards
+EXPERIENCE
+AI/ML Engineer & Researcher | Self Employed | CA, USA Nov 2025 - Present
+• Designed and deployed end-to-end LLM-based RAG pipeline with FAISS achieving 92% retrieval accuracy across 300+ documents
+with real-time monitoring dashboards tracking confidence scores and cache metrics
+• Built production semantic routing middleware reducing inference costs through dynamic model selection and sub-10ms cache
+response times using vector database similarity matching
+• Developed LangGraph observability tool capturing full execution traces and state transitions enabling time-travel debugging for
+multi-agent workflows with inline modification capabilities
+Software Engineer | One Community Global | San Gabriel, CA Jun 2025 - Oct 2025
+• Collaborated with cross-functional teams implementing JavaScript-based features with unit testing and CI/CD integration
+• Contributed to platform scalability improvements and code quality standards through peer reviews and documentation
+• Delivered maintainable solutions for automation and user-facing applications across business domains
+AI/ML Engineer | Neolytix | India (Hybrid) Aug 2021 - Aug 2023
+• Built and deployed classical ML models for forecasting and optimization solving real-world business problems with measurable
+accuracy improvements
+• Developed scalable data pipelines and ETL workflows processing large datasets with Python TensorFlow and cloud infrastructure
+• Collaborated with product and business stakeholders translating requirements into production-ready ML solutions with monitoring
+and deployment automation
+• Presented model insights and recommendations through dashboards and stakeholder presentations communicating technical trade-
+offs to non-technical audiences
+Python Engineer | Neolytix | India (Hybrid) May 2021 - Jul 2021
+• Engineered Python-based automation solutions and data processing pipelines with TensorFlow integrations
+• Implemented feature engineering and model experimentation workflows supporting ML system development
+Python Engineer Trainee | JSpiders | Bengaluru, India Aug 2020 - Apr 2021
+• Completed intensive training in Python programming machine learning fundamentals and software engineering practices
+• Developed foundational skills in classical ML algorithms data structures and problem-solving techniques
+PROJECTS
+MediQuery RAG - Clinical AI Assistant
+• Engineered production RAG system using FAISS with all-MiniLM-L6-v2 embeddings querying 300+ medical documents achieving
+grounded low-hallucination outputs with ICD-11 mapping and real-time admin dashboard tracking retrieval confidence scores query
+logs and cache metrics with 1-hour TTL deployed using Docker and CI/CD practices
+Chronos - Agent Flight Recorder & Time-Travel Debugger
+• Built LangGraph observability tool capturing full execution traces tool invocations and state transitions across multi-agent workflows
+with React Flow visualization enabling time-travel debugging allowing engineers to modify inline JSON prompts and resume live
+pipeline execution for production troubleshooting
+Semantic Router & Inference Optimizer
+• Developed intelligent middleware using vector database semantic cache matching achieving sub-10ms query response dynamically
+routing low- complexity queries to lightweight models and reserving heavy reasoning models for advanced tasks reducing enterprise
+API costs through optimized model selection logic
+Multi-Agent Research Engine
+• Designed stateful multi-agent system using LangGraph with Planner-Researcher-Writer execution nodes implementing Human-in-the-
+Loop checkpointing pausing for human validation before expensive web searches solving black-box AI workflow problems with
+predictable quality output and cost control
+Carvia - AI Resume Customization Platform
+• Architected full-stack platform using FastAPI React Supabase PostgreSQL and Google OAuth executing automated resume tailoring
+workflows with state management file-generation engines and GitHub Actions CI/CD deployment demonstrating end-to-end software
+engineering and cloud integration capabilities
+EDUCATION
+Master of Science in Computer Science | University of Bridgeport, CT, USA GPA: 3.4/4.0
+CERTIFICATIONS
+Google AI Essentials – Google
+MLOps for Generative AI
+Project Management Foundations – LinkedIn Learning
+What Is Generative AI? – LinkedIn Learning

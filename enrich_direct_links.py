@@ -72,6 +72,34 @@ def check_workable(slug, job_title):
         return None
     return None
 
+def check_smartrecruiters(slug, job_title):
+    url = f"https://api.smartrecruiters.com/v1/companies/{slug}/postings"
+    try:
+        resp = requests.get(url, timeout=5)
+        if resp.status_code != 200:
+            return None
+        postings = resp.json().get("content", [])
+        for job in postings:
+            if job_title.lower() in job.get("name", "").lower():
+                return job.get("ref")
+    except requests.RequestException:
+        return None
+    return None
+
+def check_bamboohr(slug, job_title):
+    url = f"https://{slug}.bamboohr.com/jobs/embed2.php?version=1"
+    try:
+        resp = requests.get(url, timeout=5)
+        if resp.status_code != 200:
+            return None
+        jobs = resp.json()
+        for job in jobs:
+            if job_title.lower() in job.get("title", "").lower():
+                return f"https://{slug}.bamboohr.com/careers/{job.get('id')}"
+    except (requests.RequestException, ValueError):
+        return None
+    return None
+
 def enrich_with_direct_link(job):
     """
     Try Greenhouse, Lever, Ashby, then Workable for a direct company link.
@@ -86,6 +114,8 @@ def enrich_with_direct_link(job):
         (check_lever, "Lever (direct)"),
         (check_ashby, "Ashby (direct)"),
         (check_workable, "Workable (direct)"),
+        (check_smartrecruiters, "SmartRecruiters (direct)"),
+        (check_bamboohr, "BambooHR (direct)"),
     ]
 
     for check_fn, source_label in checks:

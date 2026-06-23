@@ -24,8 +24,8 @@ def generate_html(scored_jobs):
             <td style="color:{verdict_color}; font-weight:bold;">{verdict}</td>
             <td>{job.get('h1b_signal', '')}</td>
             <td>{job.get('reason', '')}</td>
-            <td><a href="{job.get('apply_link', '#')}" target="_blank">Apply →</a></td>
-        </tr>
+            <td>{job.get('source', '')}</td>
+            <td><a href="{job.get('apply_link', '#')}" target="_blank">Apply →</a></td>        </tr>
         """
 
     html = f"""

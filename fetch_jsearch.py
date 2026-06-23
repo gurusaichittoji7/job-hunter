@@ -52,8 +52,23 @@ def fetch_jobs_for_role(query, location="United States", num_pages=1):
 
     data = response.json()
     jobs = data.get("data", [])
+    filtered = [job for job in jobs if is_within_last_24_hours(job)]
+    for job in filtered:
+        best_link, best_source = get_best_apply_link(job)
+        job["best_apply_link"] = best_link
+        job["best_apply_source"] = best_source
+
+    return filtered
     return [job for job in jobs if is_within_last_24_hours(job)]
 
+def get_best_apply_link(job):
+    """Prefer a direct company application link over indirect reposts."""
+    options = job.get("apply_options") or []
+    direct = [opt for opt in options if opt.get("is_direct")]
+    if direct:
+        return direct[0]["apply_link"], direct[0]["publisher"]
+    # fallback to whatever the default apply link is
+    return job.get("job_apply_link"), job.get("job_publisher")
 
 def fetch_all_jobs(location="United States"):
     """Loop through all target roles and collect fresh jobs."""
@@ -72,3 +87,9 @@ if __name__ == "__main__":
         print(job.get("job_title"), "-", job.get("employer_name"))
         print(job.get("job_apply_link"))
         print("---")
+
+if __name__ == "__main__":
+    jobs = fetch_all_jobs()
+    print(f"\nTotal jobs found across all roles: {len(jobs)}\n")
+    import json
+    print(json.dumps(jobs[0], indent=2))  # full raw structure of one job

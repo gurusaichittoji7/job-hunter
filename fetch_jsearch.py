@@ -6,8 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("RAPIDAPI_KEY")
-BASE_URL = "https://jsearch.p.rapidapi.com/search"
-
+BASE_URL = "https://jsearch.p.rapidapi.com/search-v2"
 ROLES = [
     "Applied AI Engineer",
     "AI/ML Engineer",
@@ -51,14 +50,7 @@ def fetch_jobs_for_role(query, location="United States", num_pages=1):
         return []
 
     data = response.json()
-    jobs = data.get("data", [])
-    filtered = [job for job in jobs if is_within_last_24_hours(job)]
-    for job in filtered:
-        best_link, best_source = get_best_apply_link(job)
-        job["best_apply_link"] = best_link
-        job["best_apply_source"] = best_source
-
-    return filtered
+    jobs = data.get("data", {}).get("jobs", [])
     return [job for job in jobs if is_within_last_24_hours(job)]
 
 def get_best_apply_link(job):

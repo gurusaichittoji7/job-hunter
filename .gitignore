@@ -3,4 +3,5 @@ __pycache__/
 *.pyc
 seen_jobs.db
 .DS_Store
-output/
+output/launchd_output.log
+launchd_error.log

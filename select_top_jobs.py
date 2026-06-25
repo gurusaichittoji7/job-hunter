@@ -4,7 +4,7 @@ MIN_MATCH_PERCENT = 75
 MAX_PER_COMPANY = 2
 TOP_N = 50
 
-BLOCKED_SOURCES = {"talent.com", "learn4good", "trabajo.org"}
+BLOCKED_SOURCES = {"talent.com", "learn4good", "trabajo.org", "theladders.com", "ladders", "mysmartpros", "digitalhire"}
 BLOCKED_EMPLOYERS = {"quzara llc"}
 
 

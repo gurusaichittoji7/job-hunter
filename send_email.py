@@ -22,6 +22,7 @@ def build_email_html(top_jobs):
             <td style="padding:8px; border-bottom:1px solid #ddd;">{job.get('h1b_signal', '')}</td>
             <td style="padding:8px; border-bottom:1px solid #ddd;">
                 <a href="{job.get('apply_link', '#')}">Apply →</a>
+                {f'<br><a href="file://{job.get("tailored_resume_path")}">📄 Tailored CV</a>' if job.get('tailored_resume_path') else ''}
             </td>
         </tr>
         """

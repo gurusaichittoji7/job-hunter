@@ -8,6 +8,7 @@ from enrich_direct_links import enrich_all
 from validate_links import filter_active_jobs
 from score import score_jobs
 from select_top_jobs import select_top_jobs
+from tailor_resume import tailor_and_generate
 from output import generate_html
 from send_email import send_job_email
 
@@ -60,7 +61,10 @@ def run():
     top_jobs = select_top_jobs(scored)
     print(f"      → {len(top_jobs)} jobs made the final cut")
 
-    print("\n[10/10] Generating report and sending email...")
+    print("\n[10/10] Tailoring resumes for top matches...")
+    top_jobs = tailor_and_generate(top_jobs)
+
+    print("\n[11/11] Generating report and sending email...")
     filepath = generate_html(top_jobs)
     print(f"      → report saved to {filepath}")
 
